@@ -39,10 +39,6 @@ export function Hero() {
         {/* Mensagem principal */}
         <div className="relative grid gap-10 pb-14 pt-6 lg:grid-cols-[1.35fr_1fr] lg:items-end lg:gap-16">
           <div data-reveal>
-            <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-red-200">
-              <span className="size-1.5 rounded-full bg-brand-bright text-brand-bright animate-pulse-dot" />
-              Plataforma de anúncios automotivos
-            </p>
             <h1 className="font-display text-[2.6rem] leading-[1.02] font-semibold tracking-[-0.035em] text-white sm:text-6xl lg:text-7xl">
               Anuncie seus veículos com <span className="text-energy">mais impacto.</span>
             </h1>
