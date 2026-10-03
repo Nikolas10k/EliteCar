@@ -1,0 +1,231 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink-950: #040404;
+  --color-ink-900: #0a0a0b;
+  --color-ink-850: #0f0f11;
+  --color-ink-800: #141417;
+  --color-ink-700: #1d1d21;
+  --color-ink-600: #2a2a30;
+  --color-brand: #e10600;
+  --color-brand-bright: #ff2b1f;
+  --color-brand-deep: #8a0400;
+  --color-silver: #d6d6dc;
+
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-sora);
+  --font-logo: var(--font-russo);
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-glow: glow 3.6s ease-in-out infinite;
+  --animate-shine: shine 5.5s cubic-bezier(0.6, 0, 0.2, 1) infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-pulse-dot: pulse-dot 2s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) rotate(-0.6deg);
+    }
+    50% {
+      transform: translate3d(0, -14px, 0) rotate(0.6deg);
+    }
+  }
+  @keyframes glow {
+    0%,
+    100% {
+      filter: drop-shadow(0 0 18px rgb(225 6 0 / 0.45)) drop-shadow(0 0 2px rgb(255 80 60 / 0.6));
+    }
+    50% {
+      filter: drop-shadow(0 0 34px rgb(255 43 31 / 0.75)) drop-shadow(0 0 4px rgb(255 120 100 / 0.8));
+    }
+  }
+  @keyframes shine {
+    0%,
+    55% {
+      transform: translateX(-120%) skewX(-20deg);
+    }
+    100% {
+      transform: translateX(220%) skewX(-20deg);
+    }
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 currentColor;
+    }
+    50% {
+      box-shadow: 0 0 0 4px transparent;
+    }
+  }
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-ink-950);
+}
+
+body {
+  background: var(--color-ink-950);
+  color: #f4f4f5;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgb(225 6 0 / 0.55);
+  color: #fff;
+}
+
+/* ---------- Entrada animada do logo ---------- */
+.logo-swoosh {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: swoosh-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.logo-swoosh--roof {
+  animation-delay: 0.25s;
+}
+.logo-swoosh--tail {
+  animation-delay: 0.55s;
+}
+.logo-word {
+  animation: word-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+.logo-sub {
+  animation: word-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+}
+@keyframes swoosh-in {
+  from {
+    opacity: 0;
+    transform: scaleX(0.2) translateX(-40px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* ---------- Revelação ao rolar ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(6px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--delay, 0ms);
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* ---------- Card com spotlight vermelho seguindo o cursor ---------- */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, -20%),
+    rgb(255 43 31 / 0.85),
+    rgb(255 255 255 / 0.08) 45%,
+    rgb(255 255 255 / 0.06)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    500px circle at var(--mx, 50%) var(--my, -20%),
+    rgb(225 6 0 / 0.1),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+  z-index: 1;
+}
+.spotlight:hover::after {
+  opacity: 1;
+}
+
+/* ---------- Utilitários ---------- */
+.text-chrome {
+  background: linear-gradient(180deg, #ffffff 0%, #e4e4e9 45%, #8d8d96 52%, #f1f1f4 72%, #a9a9b2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.text-energy {
+  background: linear-gradient(100deg, #ff7a6e 0%, #ff2b1f 35%, #e10600 60%, #ff5a4a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.grid-lines {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
